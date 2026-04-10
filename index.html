@@ -301,12 +301,35 @@
     }
 
     .checkbox-item input[type="checkbox"] {
-      width: 17px;
-      height: 17px;
+      width: 20px;
+      height: 20px;
       accent-color: var(--teal);
       cursor: pointer;
       flex-shrink: 0;
       margin-top: 2px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--white);
+      border: 2px solid rgba(26,140,130,0.4);
+      border-radius: 5px;
+      position: relative;
+      transition: all 0.15s;
+    }
+    .checkbox-item input[type="checkbox"]:checked {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .checkbox-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 6px;
+      height: 10px;
+      border: 2px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
     }
 
     .checkbox-item .cb-title {
@@ -514,10 +537,9 @@
             <label>Experience level</label>
             <select id="f-level">
               <option value="">Select...</option>
-              <option>Complete beginner</option>
-              <option>Some experience</option>
-              <option>Intermediate</option>
-              <option>Advanced</option>
+              <option value="&lt;1">&lt;1 year</option>
+              <option value="2-5">2–5 years</option>
+              <option value="&gt;5">&gt;5 years</option>
             </select>
           </div>
           <div class="form-row">
@@ -628,13 +650,13 @@
           },
           body: JSON.stringify({
             fields: {
-              Name: name,
-              Email: email,
-              Phone: phone,
-              Level: level,
-              Role: role,
-              Courses: checked.join(', '),
-              Status: 'Waitlist'
+              "First Name": name.split(" ")[0],
+              "Last Name": name.split(" ").slice(1).join(" ") || "",
+              "Email": email,
+              "Phone Number": phone,
+              "Years Dancing": level,
+              "Role": role,
+              "Course(s) of interest": checked.join(", ")
             }
           })
         });

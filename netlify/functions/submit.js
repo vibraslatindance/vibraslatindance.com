@@ -25,7 +25,7 @@ exports.handler = async function(event) {
         "Phone Number": phone,
         "Years Dancing": level,
         "Role": role,
-        "Course(s) of interest": courses
+        "Course(s) of interest": courses.split(", ").filter(Boolean)
       }
     });
 

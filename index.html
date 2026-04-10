@@ -604,9 +604,6 @@
   </footer>
 
   <script>
-    const AIRTABLE_TOKEN = 'patnqRe6Mxr61P8fn.afa0989496e3f5b1c53fd07eab569a554ba8c4f4d11aec17c0f3028a1d1456be';
-    const BASE_ID = 'appd1EijhJ4hdfrwF';
-    const TABLE_ID = 'tblJsdXUHzXdzmYq6';
 
     function toggleCheck(id, cb) {
       const el = document.getElementById(id);
@@ -642,22 +639,12 @@
       btn.textContent = 'Submitting...';
 
       try {
-        const response = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`, {
+        const response = await fetch('/.netlify/functions/submit', {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            fields: {
-              "First Name": name.split(" ")[0],
-              "Last Name": name.split(" ").slice(1).join(" ") || "",
-              "Email": email,
-              "Phone Number": phone,
-              "Years Dancing": level,
-              "Role": role,
-              "Course(s) of interest": checked.join(", ")
-            }
+            name, email, phone, level, role,
+            courses: checked.join(', ')
           })
         });
 

@@ -9,6 +9,10 @@ exports.handler = async function(event) {
   const baseId = 'appd1EijhJ4hdfrwF';
   const tableId = 'tblJsdXUHzXdzmYq6';
 
+  if (!token) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'NO TOKEN FOUND IN ENV' }) };
+  }
+
   try {
     const data = JSON.parse(event.body);
     const { name, email, phone, level, role, courses } = data;
@@ -48,11 +52,11 @@ exports.handler = async function(event) {
       req.end();
     });
 
-    if (result.status !== 200 && result.status !== 201) {
-      return { statusCode: 500, body: JSON.stringify({ error: result.body }) };
-    }
-
-    return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    // Return full Airtable response so we can debug
+    return {
+      statusCode: result.status,
+      body: result.body
+    };
 
   } catch (e) {
     return { statusCode: 500, body: JSON.stringify({ error: e.message }) };
